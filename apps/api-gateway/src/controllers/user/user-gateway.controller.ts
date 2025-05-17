@@ -44,6 +44,6 @@ export class UserGatewayController {
   async remove(
     @Param('id') id: string,
   ) {
-    return this.serviceUserClient.send('remove_user', id);
+    return this.serviceUserClient.send('remove_user', { id });
   }
 }
