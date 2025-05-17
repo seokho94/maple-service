@@ -3,7 +3,10 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserInfoSchema = HydratedDocument<UserInfo>;
 
-@Schema({ collection: 'user_infos'})
+@Schema({ 
+  collection: 'user_infos',
+  timestamps: { createdAt: 'createTime', updatedAt: 'updateTime' }
+})
 export class UserInfo {
   @Prop({ required: true, unique: true })
   userId: string;
@@ -22,10 +25,6 @@ export class UserInfo {
 
 	@Prop({ required: true })
 	role: string;
-
-  @Prop({ default: new Date() })
-  createTime: Date;
-
 }
 
 export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
