@@ -4,10 +4,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { UserInfo, UserInfoSchema } from '../../users/entities/userInfo.schema';
 
+
 @Injectable()
 export class SessionService {
   constructor(
-    @InjectModel(UserInfo.name) private userModel: Model<UserInfo>,
+    @InjectModel(UserInfo.name) private userModel: Model<UserInfoSchema>,
     private jwtService: JwtService,
   ) {}
 
@@ -30,6 +31,7 @@ export class SessionService {
       sub: user._id,
       role: user.role 
     };
+
     return {
       access_token: this.jwtService.sign(payload),
     };

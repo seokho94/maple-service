@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UserGatewayController } from './controllers/user/user-gateway.controller';
+import { SessionGatewayController } from './controllers/session/session-gateway.controller';
 import { EventGatewayController } from './controllers/event/event-gateway.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -28,8 +30,13 @@ import { ConfigModule } from '@nestjs/config';
         }
       }
     ]),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+    }),
   ],
-  controllers: [UserGatewayController, EventGatewayController],
+  controllers: [UserGatewayController, SessionGatewayController, EventGatewayController],
   providers: [],
 })
 export class ApiGatewayModule {}
