@@ -8,24 +8,24 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginHistory, LoginHistorySchema } from "./entities/login-history.schema";
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      {
-        name: UserInfo.name, schema: UserInfoSchema
-      },
-      {
-        name: LoginHistory.name, schema: LoginHistorySchema
-      },
-    ]),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN') }, // Token expiration time
-      }),
-    }),
-  ],
+	imports: [
+		MongooseModule.forFeature([
+			{
+				name: UserInfo.name, schema: UserInfoSchema
+			},
+			{
+				name: LoginHistory.name, schema: LoginHistorySchema
+			},
+		]),
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: (configService: ConfigService) => ({
+				secret: configService.get<string>('JWT_SECRET'),
+				signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN') }, // Token expiration time
+			}),
+		}),
+	],
 	controllers: [ServiceSessionController],
 	providers: [SessionService],
 })
