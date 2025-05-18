@@ -5,12 +5,16 @@ import { SessionService } from "./services/session.service";
 import { UserInfo, UserInfoSchema } from "../users/entities/userInfo.schema";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoginHistory, LoginHistorySchema } from "./entities/login-history.schema";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: UserInfo.name, schema: UserInfoSchema
+      },
+      {
+        name: LoginHistory.name, schema: LoginHistorySchema
       },
     ]),
     JwtModule.registerAsync({

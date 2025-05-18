@@ -15,9 +15,9 @@ export class ServiceSessionController {
   }
 
   @MessagePattern('login')
-  async login(@Payload() data: { userId: string; password: string }) {
+  async login(@Payload() data: { ip: string, userId: string; password: string }) {
     const user = await this.sessionService.validateUser(data.userId, data.password);
     if (!user) return { error: 'Invalid credentials' };
-    return this.sessionService.login(user);
+    return this.sessionService.login(user, data.ip);
   }
 }
