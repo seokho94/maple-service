@@ -2,17 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EventGatewayController } from './event-gateway.controller';
 
 describe('EventGatewayController', () => {
-  let controller: EventGatewayController;
+	let controller: EventGatewayController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [EventGatewayController],
-    }).compile();
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			controllers: [EventGatewayController],
+		}).compile();
 
-    controller = module.get<EventGatewayController>(EventGatewayController);
-  });
+		controller = module.get<EventGatewayController>(EventGatewayController);
+	});
 
-  it('should be defined', () => {
-    // expect(controller).toBeDefined();
-  });
+	it('should be defined', () => {
+		// expect(controller).toBeDefined();
+	});
 });
