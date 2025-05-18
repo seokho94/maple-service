@@ -7,36 +7,36 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: [`.${process.env.NODE_ENV}.env`],
-    }),
-    ClientsModule.register([
-      {
-        name: 'SERVICE_USER',
-        transport: Transport.TCP,
-        options: {
-          host: process.env.SERVICE_USER_HOST || 'localhost',
-          port: parseInt(process.env.SERVICE_USER_PORT || '3001')
-        }
-      },
-      {
-        name: 'SERVICE_EVENT',
-        transport: Transport.TCP,
-        options: {
-          host: process.env.SERVICE_USER_HOST || 'localhost',
-          port: parseInt(process.env.SERVICE_EVNET_PORT || '3002'),
-        }
-      }
-    ]),
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
-    }),
-  ],
-  controllers: [UserGatewayController, SessionGatewayController, EventGatewayController],
-  providers: [],
+	imports: [
+		ConfigModule.forRoot({
+			isGlobal: true,
+			envFilePath: [`.${process.env.NODE_ENV}.env`],
+		}),
+		ClientsModule.register([
+			{
+				name: 'SERVICE_USER',
+				transport: Transport.TCP,
+				options: {
+					host: process.env.SERVICE_USER_HOST || 'localhost',
+					port: parseInt(process.env.SERVICE_USER_PORT || '3001')
+				}
+			},
+			{
+				name: 'SERVICE_EVENT',
+				transport: Transport.TCP,
+				options: {
+					host: process.env.SERVICE_USER_HOST || 'localhost',
+					port: parseInt(process.env.SERVICE_EVNET_PORT || '3002'),
+				}
+			}
+		]),
+		JwtModule.register({
+			global: true,
+			secret: process.env.JWT_SECRET,
+			signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+		}),
+	],
+	controllers: [UserGatewayController, SessionGatewayController, EventGatewayController],
+	providers: [],
 })
 export class ApiGatewayModule {}

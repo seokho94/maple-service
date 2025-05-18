@@ -2,17 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserGatewayController } from './user-gateway.controller';
 
 describe('UserGatewayController', () => {
-  let controller: UserGatewayController;
+	let controller: UserGatewayController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserGatewayController],
-    }).compile();
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			controllers: [UserGatewayController],
+		}).compile();
 
-    controller = module.get<UserGatewayController>(UserGatewayController);
-  });
+		controller = module.get<UserGatewayController>(UserGatewayController);
+	});
 
-  it('should be defined', () => {
-    // expect(controller).toBeDefined();
-  });
+	it('should be defined', () => {
+		// expect(controller).toBeDefined();
+	});
 });
