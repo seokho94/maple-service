@@ -4,6 +4,7 @@ import { ServiceSessionController } from "./controllers/service-session.controll
 import { SessionService } from "./services/session.service";
 import { UserInfo, UserInfoSchema } from "../users/entities/userInfo.schema";
 import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -12,9 +13,13 @@ import { JwtModule } from "@nestjs/jwt";
         name: UserInfo.name, schema: UserInfoSchema
       },
     ]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' }, // Token expiration time
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN') }, // Token expiration time
+      }),
     }),
   ],
 	controllers: [ServiceSessionController],

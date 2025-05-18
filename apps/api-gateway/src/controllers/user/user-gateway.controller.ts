@@ -2,10 +2,13 @@ import { Controller, Get, Post, Patch, Delete, Inject, Param, Body, Query } from
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto } from '../../dtos/user/create-user.dto';
 import { UpdateUserDto } from '../../dtos/user/update-user.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../../guard/auth.guard';
 import { Observable } from 'rxjs';
 
 
 @Controller('api/service/user')
+@UseGuards(AuthGuard)
 export class UserGatewayController {
   constructor(
     @Inject('SERVICE_USER') private readonly serviceUserClient: ClientProxy,

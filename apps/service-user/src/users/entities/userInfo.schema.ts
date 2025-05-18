@@ -37,6 +37,12 @@ export class UserInfo {
 
 export const UserInfoSchema = SchemaFactory.createForClass(UserInfo);
 
+UserInfoSchema.methods.comparePassword = async function (
+  attempt: string,
+): Promise<boolean> {
+  return bcrypt.compare(attempt, this.password);
+};
+
 UserInfoSchema.pre<UserInfoSchema>('save', async function (next) {
   if (!this.isModified('password')) return next();
   
