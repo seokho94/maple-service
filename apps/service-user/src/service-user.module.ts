@@ -15,6 +15,7 @@ import { SessionModule } from './sessions/session.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_USER_URI'),
+        replicaSet: 'rs0',
       }),
       inject: [ConfigService],
     }),
