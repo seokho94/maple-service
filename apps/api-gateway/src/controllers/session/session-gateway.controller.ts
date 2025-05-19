@@ -8,11 +8,6 @@ export class SessionGatewayController {
 		@Inject('SERVICE_USER') private readonly serviceUserClient: ClientProxy,
 	) {}
 
-	@Get('/test')
-	async getTestCode() {
-		return this.serviceUserClient.send('test_code', {});
-	}
-
 	@Post()
 	login(@Req() req: Request, @Body() data: { userId: string; password: string }) {
 		const ip = req.ip || req.connection?.remoteAddress;

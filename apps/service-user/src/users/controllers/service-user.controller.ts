@@ -8,12 +8,6 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 export class ServiceUserController {
 	constructor(private readonly userService: UserService) {}
 
-	// 테스트 코드
-	@MessagePattern('test_code')
-	testCode() {
-		return this.userService.testCode();
-	}
-
 	// 전체 사용자 조회
 	@MessagePattern('get_all_users')
 	async findAll() {

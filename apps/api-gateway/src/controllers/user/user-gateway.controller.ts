@@ -13,11 +13,6 @@ export class UserGatewayController {
 		@Inject('SERVICE_USER') private readonly serviceUserClient: ClientProxy,
 	) {}
 
-	@Get('/test')
-	async getTestCode() {
-		return this.serviceUserClient.send('test_code', {});
-	}
-
 	@UseGuards(AuthGuard)
 	@Get()
 	async findAll() {

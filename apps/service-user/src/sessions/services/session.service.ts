@@ -14,10 +14,6 @@ export class SessionService {
 		@InjectModel(LoginHistory.name) private readonly loginHistoryModel: Model<LoginHistorySchema>,
 	) {}
 
-	async testCode() {
-		return 'test_code';
-	}
-
 	async validateUser(userId: string, pass: string): Promise<any> {
 		const user = await this.userModel.findOne({ userId }).exec();
 		if (user && (await user.comparePassword(pass))) {
