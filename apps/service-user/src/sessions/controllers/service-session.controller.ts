@@ -2,8 +2,6 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { SessionService } from '../services/session.service';
 
-
-
 @Controller()
 export class ServiceSessionController {
 	constructor(private readonly sessionService: SessionService) {}
