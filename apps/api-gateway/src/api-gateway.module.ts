@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserGatewayController } from './controllers/user/user-gateway.controller';
 import { SessionGatewayController } from './controllers/session/session-gateway.controller';
 import { EventGatewayController } from './controllers/event/event-gateway.controller';
+import { RewardGatewayController } from './controllers/reward/reward-gateway.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -36,7 +37,7 @@ import { JwtModule } from '@nestjs/jwt';
 			signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
 		}),
 	],
-	controllers: [UserGatewayController, SessionGatewayController, EventGatewayController],
+	controllers: [UserGatewayController, SessionGatewayController, EventGatewayController, RewardGatewayController],
 	providers: [],
 })
 export class ApiGatewayModule {}
