@@ -1,12 +1,9 @@
 import { IsEnum, IsNumber } from 'class-validator';
 
 export class CreateRewardDto {
-	@IsEnum(['meso', 'cache', 'hair coupon'])
+	@IsEnum(['meso', 'cache', 'coupon'])
 	type: string;
 
 	@IsNumber()
 	amount: number;
-
-	@IsEnum(['auto', 'manual'])
-	approvalType: string;
 }

@@ -6,7 +6,4 @@ export class CreateRewardDto {
 
 	@IsNumber()
 	amount: number;
-
-	@IsEnum(['auto', 'manual'])
-	approvalType: string;
 }

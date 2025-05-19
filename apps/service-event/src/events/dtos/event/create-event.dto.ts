@@ -19,4 +19,7 @@ export class CreateEventDto {
 	@IsOptional()
 	@IsEnum(['active', 'inactive'])
 	status: string;
+
+	@IsEnum(['auto', 'manual'])
+	approvalType: string;
 }

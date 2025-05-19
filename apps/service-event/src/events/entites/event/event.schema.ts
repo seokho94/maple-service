@@ -22,6 +22,9 @@ export class Event {
 
 	@Prop({ required: true, index: true, enum: ['active', 'inactive'] })
 	status: string;
+
+	@Prop({ required: true, enum: ['auto', 'manual'] })
+	approvalType: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
