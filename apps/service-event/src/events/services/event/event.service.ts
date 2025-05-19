@@ -69,9 +69,6 @@ export class EventService {
 		updateEventDto: UpdateEventDto, 
 		updateRewardDto?: UpdateRewardDto
 	) {
-		console.log(`id: ${id}`);
-		console.log(`updateEventDto: ${JSON.stringify(updateEventDto)}`);
-		console.log(`updateRewardDto: ${JSON.stringify(updateRewardDto)}`);
 
 		const session = await this.eventModel.db.startSession();
 		session.startTransaction();
