@@ -14,4 +14,9 @@ export class ServiceSessionController {
 		if (!user) return { error: 'Invalid credentials' };
 		return this.sessionService.login(user, data.ip);
 	}
+
+	@MessagePattern('get_login_history')
+	async getLoginHistory(@Payload() data: { userId: string; startDate: Date; endDate: Date; }) {
+		return this.sessionService.getLoginDays(data.userId, data.startDate, data.endDate);
+	}
 }

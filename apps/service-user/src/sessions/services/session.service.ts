@@ -48,4 +48,45 @@ export class SessionService {
 			access_token: this.jwtService.sign(payload),
 		};
 	}
+
+	async getLoginDays(userId: string, startDate: Date, endDate: Date): Promise<number> {
+
+		const kstStartDate = new Date(startDate);
+		kstStartDate.setHours(kstStartDate.getHours() + 9);
+		
+		const kstEndDate = new Date(endDate);
+		kstEndDate.setHours(kstEndDate.getHours() + 9);
+
+		const result = await this.loginHistoryModel.aggregate([
+			{
+				$match: {
+					userId: userId,
+					loginAt: { 
+						$gte: kstStartDate,
+						$lte: kstEndDate
+					}
+				}
+			},
+			{
+				$project: {
+					dateOnly: {
+						$dateToString: {
+							format: '%Y-%m-%d',
+							date: '$loginAt',
+							timezone: '+09:00'
+						}
+					}
+				}
+			},
+			{ $group: { _id: '$dateOnly' } },
+			{ 
+				$group: { 
+					_id: null, 
+					uniqueLoginDays: { $sum: 1 } 
+				} 
+			}
+		]);
+
+		return result[0]?.uniqueLoginDays || 0;
+	}
 }

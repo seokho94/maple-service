@@ -6,7 +6,8 @@ export type UserInfoSchema = HydratedDocument<UserInfo>;
 
 @Schema({ 
 	collection: 'user_infos',
-	timestamps: { createdAt: 'createTime', updatedAt: 'updateTime' }
+	timestamps: { createdAt: 'createTime', updatedAt: 'updateTime' },
+	autoCreate: true
 })
 export class UserInfo {
 	@Prop({ required: true, unique: true })

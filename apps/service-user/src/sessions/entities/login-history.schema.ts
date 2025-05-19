@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type LoginHistorySchema = HydratedDocument<LoginHistory>;
 
-@Schema({ collection: 'login_histories' })
+@Schema({ collection: 'login_histories', autoCreate: true })
 export class LoginHistory {
 	@Prop({ required: true })
 	userId: string;
