@@ -19,7 +19,10 @@ import { HttpModule } from '@nestjs/axios';
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: [`.${process.env.NODE_ENV}.env`],
+			envFilePath: 
+				process.env.NODE_ENV === 'production' 
+					? ['.env']  // Production: .env 파일 사용
+					: [`.${process.env.NODE_ENV}.env`],
 		}),
 		MongooseModule.forFeature([
 			{ name: Event.name, schema: EventSchema },

@@ -8,7 +8,10 @@ import { EventModule } from './events/event.module';
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: [`.${process.env.NODE_ENV}.env`],
+			envFilePath: 
+				process.env.NODE_ENV === 'production' 
+					? ['.env']  // Production: .env 파일 사용
+					: [`.${process.env.NODE_ENV}.env`],
 		}),
 		MongooseModule.forRootAsync({
 			imports: [ConfigModule],
