@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RequestController } from './request.controller';
-import { RequestService } from '../../services/request/request.service';
+import { AttendanceRewardService } from '../../services/request/event/attendance-request.service';
 
 describe('ServiceEventController', () => {
 	let requestController: RequestController;
@@ -8,7 +8,7 @@ describe('ServiceEventController', () => {
 	beforeEach(async () => {
 		const app: TestingModule = await Test.createTestingModule({
 			controllers: [RequestController],
-			providers: [RequestService],
+			providers: [AttendanceRewardService],
 		}).compile();
 
 		requestController = app.get<RequestController>(RequestController);
