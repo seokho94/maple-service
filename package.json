@@ -18,7 +18,11 @@
     "start:dev": "concurrently \"npm:start:dev:*\"",
     "start:dev:gateway": "cross-env NODE_ENV=dev nest start --watch api-gateway",
     "start:dev:service-user": "cross-env NODE_ENV=dev nest start --watch service-user",
-    "start:dev:service-event": "cross-env NODE_ENV=dev nest start --watch service-event"
+    "start:dev:service-event": "cross-env NODE_ENV=dev nest start --watch service-event",
+    "build:api-gateway": "nest build apps/api-gateway",
+    "build:service-event": "nest build apps/service-event",
+    "build:service-user": "nest build apps/service-user",
+    "build:prod": "npm run build:api-gateway && npm run build:service-event && npm run build:service-user"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
