@@ -21,6 +21,7 @@
     "start:dev:service-event": "cross-env NODE_ENV=dev nest start --watch service-event"
   },
   "dependencies": {
+    "@nestjs/axios": "^4.0.0",
     "@nestjs/common": "^11.1.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.1",

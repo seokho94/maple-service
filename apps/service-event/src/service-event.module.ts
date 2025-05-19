@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EventModule } from './events/event.module';
 
 
-
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -19,7 +18,7 @@ import { EventModule } from './events/event.module';
 			}),
 			inject: [ConfigService],
 		}),
-		EventModule
+		EventModule,
 	],
 	controllers: [],
 	providers: [],
