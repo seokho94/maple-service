@@ -1,4 +1,4 @@
-# apps/service-user/Dockerfile
+# apps/service-event/Dockerfile
 FROM node:18-alpine
 
 WORKDIR /app
@@ -7,19 +7,16 @@ WORKDIR /app
 COPY package*.json ./
 COPY ../../package*.json ../../
 
-# 2. 공유 패키지 복사
-COPY ../../packages ./packages
+# 2. 서비스 패키지 복사
+COPY ./apps/service-event/package*.json ./apps/service-event/
 
-# 3. 서비스 패키지 복사
-COPY ./apps/service-user/package*.json ./apps/service-user/
+# 3. 의존성 설치
+RUN npm install -w apps/service-event --omit=dev
 
-# 4. 의존성 설치
-RUN npm install -w apps/service-user --omit=dev
+# 4. 소스 코드 복사
+COPY ./apps/service-event ./apps/service-event
 
-# 5. 소스 코드 복사
-COPY ./apps/service-user ./apps/service-user
+# 5. 빌드
+RUN npm run build -w apps/service-event
 
-# 6. 빌드
-RUN npm run build -w apps/service-user
-
-CMD ["node", "apps/service-user/dist/main.js"]
+CMD ["node", "apps/service-event/dist/main.js"]
