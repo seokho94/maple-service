@@ -22,7 +22,6 @@ services:
       - "--bind_ip_all"
       - "--keyFile"
       - "/auth/mongo-keyfile"
-      - "rs.initiate()"
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh -u ${MONGO_ROOT_USER} -p ${MONGO_ROOT_PASSWORD} --quiet
       interval: 10s
