@@ -1,4 +1,5 @@
 ## Project Structure
+```
 nestjs-msa-project/
 ├── apps/
 │   ├── gateway-server/    # API Gateway
@@ -11,11 +12,30 @@ nestjs-msa-project/
 ├── package.json
 ├── nest-cli.json
 └── tsconfig.json
+```
 
 ## Project Description
 Gateway-server	모든 외부 요청을 받아 각 서비스로 라우팅. 인증 등 공통 처리
 Service-user	사용자 관리(회원가입, 로그인, 정보조회 등)
 Service-event	이벤트 관리 및 보상 관리(이벤트 생성, 조회, 참여 등)
+
+## Project Build
+# 1. Build
+docker-compose build # 전체 빌드
+docker-compose build '서비스명' # 개별 빌드
+
+# 2. Deploy
+docker save 또는 
+서비스명.tar docker-compose.yaml 배포 후 docker load
+
+# 3. Setting
+- MongoDB ReplicaSet Auth Key
+openssl rand -base64 756 > mongo-keyfile
+chmod 400 mongo-keyfile
+chown 999:999 mongo-keyfile
+
+# 4. run
+docker-compose '서비스명'
 
 ## Decorator Description
 @Roles - 사용자 권한 별로 접근할 수 있는 데이터 제한을 위해 사용
