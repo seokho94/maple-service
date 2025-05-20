@@ -3,11 +3,20 @@
 nestjs-msa-project/
 ├── apps/
 │   ├── gateway-server/    # API Gateway
+│		│   ├ src
+│		│   ├ Dockerfile
+│		│   ├ package.json
+│		│   └ tsconfig.app.json
 │   ├── service-user/      # 사용자 서비스
+│		│   ├ src
+│		│   ├ Dockerfile
+│		│   ├ package.json
+│		│   └ tsconfig.app.json
 │   └── service-event/     # 이벤트 서비스
-├── libs/                  # 공통 유틸리티 및 라이브러리
-│   ├── common/
-│   └── database/
+│		    ├ src
+│		    ├ Dockerfile
+│		    ├ package.json
+│		    └ tsconfig.app.json
 ├── README.md
 ├── package.json
 ├── nest-cli.json
