@@ -1,6 +1,61 @@
 version: '3.8'
 
 services:
+  # Service-User 전용 MongoDB (ReplicaSet: rs0-user)
+  mongo-user:
+    image: mongo:4.4
+    container_name: mongo-user
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-user-data:/data/db
+      - ./mongo-init/user-init.js:/docker-entrypoint-initdb.d/init.js
+      - ./mongo-keyfile:/auth/mongo-keyfile
+    environment:
+      MONGO_ROOT_USER: root
+      MONGO_ROOT_PASSWORD: root1234
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    command: 
+      - "--replSet"
+      - "rs0-user"
+      - "--bind_ip_all"
+      - "--keyFile"
+      - "/auth/mongo-keyfile"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh -u ${MONGO_ROOT_USER} -p ${MONGO_ROOT_PASSWORD} --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service-Event 전용 MongoDB (ReplicaSet: rs0-event)
+  mongo-event:
+    image: mongo:4.4
+    container_name: mongo-event
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-event-data:/data/db
+      - ./mongo-init/event-init.js:/docker-entrypoint-initdb.d/init.js
+      - ./mongo-keyfile:/auth/mongo-keyfile
+    environment:
+      MONGO_ROOT_USER: root
+      MONGO_ROOT_PASSWORD: root1234
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    command: 
+      - "--replSet"
+      - "rs0-event"
+      - "--bind_ip_all"
+      - "--keyFile"
+      - "/auth/mongo-keyfile"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh -u ${MONGO_ROOT_USER} -p ${MONGO_ROOT_PASSWORD} --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API Gateway
   api-gateway:
     build:
       context: .
@@ -8,59 +63,51 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/msa
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    networks:
-      - msa-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      NODE_ENV: production
+      USER_SERVICE_URL: http://192.168.56.11:3001
+      EVENT_SERVICE_URL: http://192.168.56.12:3002
+      GATEWAY_PORT: 3000
+      GATEWAY_HOST: 192.168.56.10
+      GATEWAY_URL: http://192.168.56.10:3000
+      SERVICE_USER_PORT: 3001
+      SERVICE_USER_HOST: 192.168.56.11
+      SERVICE_EVENT_PORT: 3002
+      SERVICE_EVENT_HOST: 192.168.56.12
+      JWT_SECRET: 2u8B0PnpgJ6/XzgoFUb5IuZbkRRYS69c9krDbY16pN8=
+      JWT_EXPIRES_IN: 1d
 
-  service-event:
-    build:
-      context: .
-      dockerfile: ./apps/service-event/Dockerfile
-    environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/msa
-    networks:
-      - msa-network
-
+  # 사용자 서비스
   service-user:
     build:
       context: .
       dockerfile: ./apps/service-user/Dockerfile
     environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/msa
-    networks:
-      - msa-network
+      NODE_ENV: production
+      MONGO_ROOT_USER: root
+      MONGO_ROOT_PASSWORD: root1234
+      MONGODB_URI: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo-user:27017/users?replicaSet=rs0-user
+    depends_on:
+      mongo-user:
+        condition: service_healthy
 
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+  # 이벤트 서비스
+  service-event:
+    build:
+      context: .
+      dockerfile: ./apps/service-event/Dockerfile
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-    networks:
-      - msa-network
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh mongodb://root:rootpassword@localhost:27017 --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      NODE_ENV: production
+      MONGO_ROOT_USER: root
+      MONGO_ROOT_PASSWORD: root1234
+      MONGODB_URI: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo-event:27017/events?replicaSet=rs0-event
+    depends_on:
+      mongo-event:
+        condition: service_healthy
 
 volumes:
-  mongo-data:
+  mongo-user-data:
+  mongo-event-data:
 
 networks:
-  msa-network:
+  default:
     driver: bridge
