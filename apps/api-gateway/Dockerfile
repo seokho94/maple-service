@@ -3,20 +3,19 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# 1. 루트 패키지 복사
-COPY package*.json ./
-COPY ../../package*.json ../../
+# 1. 루트 package.json 복사
+COPY ../../package.json ./
 
-# 2. 서비스 패키지 복사
-COPY ./apps/api-gateway/package*.json ./apps/api-gateway/
+# 2. 서비스 package.json 복사
+COPY ./package.json ./apps/api-gateway/
 
-# 3. 의존성 설치
-RUN npm install -w apps/api-gateway --omit=dev
+# 3. 전체 apps 디렉터리 복사
+COPY ../../apps ./apps
 
-# 4. 소스 코드 복사
-COPY ./apps/api-gateway ./apps/api-gateway
+# 4. 의존성 설치 (루트에서)
+RUN npm install
 
 # 5. 빌드
 RUN npm run build -w apps/api-gateway
 
-CMD ["node", "apps/api-gateway/dist/main.js"]
+CMD ["node", "dist/apps/api-gateway/main.js"]
