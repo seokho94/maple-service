@@ -1,13 +1,10 @@
 {
-  "name": "msa-service",
+  "name": "service-event",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "workspaces":[
-    "apps/*"
-  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
@@ -35,12 +32,10 @@
     "@nestjs/common": "^11.1.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.1",
-    "@nestjs/jwt": "^11.0.0",
     "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/microservices": "^11.1.1",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.1.1",
-    "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "concurrently": "^9.1.2",
